@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request
+from flask import Flask, url_for, request, render_template
 app = Flask(__name__)
 
 @app.route("/")
@@ -58,6 +58,35 @@ def upload():
     </form></body></html>
     '''
     return page, 200
+
+
+@app.route("/hello/<name>")
+def helloTemplate(name=None):
+  user={'name':name}
+  return render_template('hello.html',user=user)
+
+@app.route("/conditional/")
+@app.route("/conditional/<name>")
+def conditional(name=None):
+  return render_template('conditional.html',name=name)
+
+@app.route('/users/')
+def users():
+  names=['axel','alex','bastien','yohan','damien','bertine','benoit']
+  return render_template('loop.html',names=names)
+
+@app.route('/inherits/')
+def inherits():
+  return render_template('inheritance.html')
+
+@app.route('/inherits/one')
+def inherits_one():
+  return render_template('content1.html')
+
+@app.route('/inherits/two')
+def inherits_two():
+  return render_template('content2.html')
+
 
 @app.errorhandler(404)
 def page_not_found(error):
